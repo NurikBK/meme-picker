@@ -170,13 +170,30 @@ const catsData = [
 ];
 
 function getEmotionsArray(cats) {
-  const emotionsArray = [];
-  for (let i = 0; i < cats.length; i++) {
-    for (let j = 0; j < cats[i].emotionTags.length; j++) {
-      emotionsArray.push(cats[i].emotionTags[j]);
+  const emotionsArr = [];
+  for (let cat of cats) {
+    for (let emotionTag of cat.emotionTags) {
+      emotionsArr.push(emotionTag);
     }
   }
-  console.log(emotionsArray);
+
+  const filteredTags = new Set([...emotionsArr]);
+  return emotionsArr;
 }
 
-getEmotionsArray(catsData);
+function renderEmotionsRadios() {
+  const emotions = getEmotionsArray(catsData);
+
+  const emotionRadios = document.getElementById('emotion-radios');
+
+  emotionRadios.innerHTML += emotions.map((emotion, index) => {
+    return `
+      <div class="emotion-tag"> 
+          <label for="emotion-${index}">${emotion}</label>
+          <input type="radio" id=emotion-${index}
+       </div>   
+      `;
+  });
+}
+
+renderEmotionsRadios()
